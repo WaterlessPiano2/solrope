@@ -1,15 +1,31 @@
 import * as React from "react";
-
-const send = () => {
-  console.log("chad");
-};
+import * as web3 from "@solana/web3.js";
 
 const PublickKeyInput = () => {
   const [key, setKey] = React.useState("");
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
+    var connection = new web3.Connection(
+      web3.clusterApiUrl("mainnet-beta"),
+      "confirmed"
+    );
+
     evt.preventDefault();
-    alert(`Submitting Public Key: ${key}`);
+    // alert(`Submitting Public Key: ${key}`);
+    var connection = new web3.Connection(
+      web3.clusterApiUrl("mainnet-beta"),
+      "confirmed"
+    );
+
+    // Generate a new wallet keypair and airdrop SOL
+    var wallet = new web3.PublicKey(key);
+    console.log(wallet);
+    // get account info
+    // account data is bytecode that needs to be deserialized
+    // serialization and deserialization is program specific
+
+    let account = await connection.getAccountInfo(wallet);
+    console.log(account);
   };
   return (
     <form onSubmit={handleSubmit}>
