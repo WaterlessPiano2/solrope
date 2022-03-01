@@ -1,5 +1,9 @@
 import * as React from "react";
 import * as web3 from "@solana/web3.js";
+import {
+  resolveToWalletAddress,
+  getParsedNftAccountsByOwner,
+} from "@nfteyez/sol-rayz";
 
 const PublickKeyInput = () => {
   const [key, setKey] = React.useState("");
@@ -19,7 +23,16 @@ const PublickKeyInput = () => {
 
     // Generate a new wallet keypair and airdrop SOL
     var wallet = new web3.PublicKey(key);
-    console.log(wallet);
+
+    const publicAddress = await resolveToWalletAddress({
+      text: key,
+    });
+
+    const nftArray = await getParsedNftAccountsByOwner({
+      publicAddress,
+    });
+
+    console.log(nftArray);
     // get account info
     // account data is bytecode that needs to be deserialized
     // serialization and deserialization is program specific
