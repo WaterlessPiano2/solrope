@@ -5,7 +5,11 @@ import {
   getParsedNftAccountsByOwner,
 } from "@nfteyez/sol-rayz";
 
-const PublickKeyInput = () => {
+type Props = {
+  nfts: (x) => {};
+};
+
+const PublickKeyInput = ({ nfts }: Props) => {
   const [key, setKey] = React.useState("");
 
   const handleSubmit = async (evt) => {
@@ -33,6 +37,7 @@ const PublickKeyInput = () => {
     });
 
     console.log(nftArray);
+    nfts(nftArray);
     // get account info
     // account data is bytecode that needs to be deserialized
     // serialization and deserialization is program specific
