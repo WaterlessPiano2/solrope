@@ -6,17 +6,18 @@ import Galery from "../components/Galery";
 
 const AboutPage = () => {
   const [data, setData] = useState();
-  console.log("data", data);
+  console.log("a page");
   return (
     <Layout title="About | Next.js + TypeScript Example">
       <h1>About</h1>
       <p>This is the about page</p>
-      <PublickKeyInput nfts={(x) => setData(x)} />
+      <PublickKeyInput nfts={async (x) => setData(x)} />
+      <Galery nfts={data} />
+
       <p>
         <Link href="/">
           <a>Go home</a>
         </Link>
-        <Galery nfts={data} />
       </p>
     </Layout>
   );

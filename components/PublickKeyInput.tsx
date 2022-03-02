@@ -10,40 +10,30 @@ type Props = {
 };
 
 const PublickKeyInput = ({ nfts }: Props) => {
-  const [key, setKey] = React.useState("");
+  const [key, setKey] = React.useState(
+    "489RFKuM1fpZuczdHV3qsPoJ2K4Nm6hYHdSzGSWuRn2q"
+  );
+  console.log("pk component");
 
   const handleSubmit = async (evt) => {
     var connection = new web3.Connection(
       web3.clusterApiUrl("mainnet-beta"),
       "confirmed"
     );
-
     evt.preventDefault();
     // alert(`Submitting Public Key: ${key}`);
     var connection = new web3.Connection(
       web3.clusterApiUrl("mainnet-beta"),
       "confirmed"
     );
-
     // Generate a new wallet keypair and airdrop SOL
-    var wallet = new web3.PublicKey(key);
-
     const publicAddress = await resolveToWalletAddress({
       text: key,
     });
-
     const nftArray = await getParsedNftAccountsByOwner({
       publicAddress,
     });
-
-    console.log(nftArray);
     nfts(nftArray);
-    // get account info
-    // account data is bytecode that needs to be deserialized
-    // serialization and deserialization is program specific
-
-    let account = await connection.getAccountInfo(wallet);
-    console.log(account);
   };
   return (
     <form onSubmit={handleSubmit}>
