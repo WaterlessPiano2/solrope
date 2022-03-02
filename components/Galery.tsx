@@ -1,34 +1,36 @@
 import * as React from "react";
 
 const Galery = ({ nfts }) => {
-  console.log(nfts);
-  const [metadata, setMetadata] = React.useState({});
+  const [metadatas, setMetadata] = React.useState([]);
 
-  const fetchMetadata = React.useCallback(async () => {
+  const fetchMetadata = async () => {
     for (const nft of nfts) {
       fetch(nft.data.uri)
         .then((response) => response.json())
-        .then((meta) =>
-          setMetadata((state) => ({ ...state, [nft.mint]: meta }))
-        );
+        .then((meta) => {
+          metadatas.push(meta);
+          setMetadata(metadatas);
+        });
     }
-  }, [nfts]);
+    console.log("1metadatas: ", metadatas);
+  };
 
   React.useEffect(() => {
+    setMetadata([]);
     if (nfts?.length) fetchMetadata();
-  }, [nfts, fetchMetadata]);
+  }, [nfts]);
 
   return (
     <div>
       <h1>Solana NFT List</h1>
       <hr />
-      {(nfts || []).map((nft) => {
-        console.log(metadata?.[nft.mint]?.image);
+      {(metadatas || []).map((metadata) => {
+        console.log("2metadata: ", metadatas);
         return (
-          <div key={nft.mint}>
-            <img src={metadata?.[nft.mint]?.image} alt="nft" width="200" />
+          <div key={metadata?.mint}>
+            <img src={metadata?.image} alt="nft" width="200" />
             <br />
-            {nft.data.name}
+            {metadata?.name}
           </div>
         );
       })}
