@@ -13,7 +13,6 @@ const PublickKeyInput = ({ nfts }: Props) => {
   const [key, setKey] = React.useState(
     "489RFKuM1fpZuczdHV3qsPoJ2K4Nm6hYHdSzGSWuRn2q"
   );
-  console.log("pk component");
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -36,7 +35,6 @@ const PublickKeyInput = ({ nfts }: Props) => {
           metadatas.push(meta);
         });
     }
-    console.log("1metadatas: ", metadatas);
     return metadatas;
   };
 

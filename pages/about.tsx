@@ -6,8 +6,6 @@ import Galery from "../components/Galery";
 
 const AboutPage = () => {
   const [data, setData] = useState([]);
-  console.log("a pageL: ", data);
-  console.log("a pageL: ", data.length);
   return (
     <Layout title="About | Next.js + TypeScript Example">
       <h1>About</h1>
