@@ -6,7 +6,7 @@ import {
 } from "@nfteyez/sol-rayz";
 
 type Props = {
-  nfts: (x) => {};
+  nfts: (x: {}[]) => {};
 };
 
 const PublickKeyInput = ({ nfts }: Props) => {
@@ -16,25 +16,30 @@ const PublickKeyInput = ({ nfts }: Props) => {
   console.log("pk component");
 
   const handleSubmit = async (evt) => {
-    var connection = new web3.Connection(
-      web3.clusterApiUrl("mainnet-beta"),
-      "confirmed"
-    );
     evt.preventDefault();
-    // alert(`Submitting Public Key: ${key}`);
-    var connection = new web3.Connection(
-      web3.clusterApiUrl("mainnet-beta"),
-      "confirmed"
-    );
-    // Generate a new wallet keypair and airdrop SOL
     const publicAddress = await resolveToWalletAddress({
       text: key,
     });
     const nftArray = await getParsedNftAccountsByOwner({
       publicAddress,
     });
-    nfts(nftArray);
+    const metadatas = await fetchMetadata(nftArray);
+    return nfts(metadatas);
   };
+
+  const fetchMetadata = async (nftArray) => {
+    let metadatas = [];
+    for (const nft of nftArray) {
+      await fetch(nft.data.uri)
+        .then((response) => response.json())
+        .then((meta) => {
+          metadatas.push(meta);
+        });
+    }
+    console.log("1metadatas: ", metadatas);
+    return metadatas;
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
